@@ -1,0 +1,139 @@
+
+{
+  "info": {
+    "name": "Eventify - Ticket Reservation API",
+    "description": "API tests for event discovery, ticket tiers, reservations, mock payment and organizer analytics.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "eventId",
+      "value": "1"
+    },
+    {
+      "key": "tierId",
+      "value": "1"
+    },
+    {
+      "key": "reservationId",
+      "value": "1"
+    },
+    {
+      "key": "userId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "List Events",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/events"
+      }
+    },
+    {
+      "name": "Create Demo Event",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-user-role",
+            "value": "ORGANIZER"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/test-event",
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        }
+      }
+    },
+    {
+      "name": "List Ticket Tiers",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/events/{{eventId}}/ticket-tiers"
+      }
+    },
+    {
+      "name": "Create Ticket Tier",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-user-role",
+            "value": "ORGANIZER"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/events/{{eventId}}/ticket-tiers",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"General Admission\",\n  \"price\": 500,\n  \"quantity\": 50\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Reservation - 10 Minute Hold",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/reservations",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": {{userId}},\n  \"ticketTierId\": {{tierId}},\n  \"quantity\": 1\n}"
+        }
+      }
+    },
+    {
+      "name": "List Reservations",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/reservations"
+      }
+    },
+    {
+      "name": "Mock Payment",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/reservations/{{reservationId}}/payment"
+      }
+    },
+    {
+      "name": "Organizer Analytics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-user-role",
+            "value": "ORGANIZER"
+          }
+        ],
+        "url": "{{baseUrl}}/organizer/analytics"
+      }
+    }
+  ]
+}
